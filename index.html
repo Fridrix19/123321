@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сетевой график работ — схема процесса</title>
+    <style>
+        :root {
+            --bg: #0d0d0d;
+            --surface: #1a1a1a;
+            --text: #f2f2f2;
+            --muted: #9a9a9a;
+            --accent: #e0e0e0;
+            --border: #3d3d3d;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.45;
+            overflow: hidden;
+        }
+
+        header {
+            flex-shrink: 0;
+            padding: 0.65rem 1rem 0.75rem;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+        }
+
+        header h1 {
+            margin: 0 0 0.2rem;
+            font-size: clamp(1rem, 2.2vw, 1.35rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        header p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.78rem;
+            max-width: 56rem;
+            line-height: 1.35;
+        }
+
+        main {
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 0.5rem 0.6rem 0.6rem;
+            gap: 0.5rem;
+        }
+
+        .diagram-wrap {
+            flex: 1;
+            min-height: 0;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.35rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+        }
+
+        .diagram-wrap .mermaid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        details {
+            flex-shrink: 0;
+            margin-top: 0;
+            max-width: 52rem;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            overflow: hidden;
+            max-height: min(26vh, 220px);
+            overflow-y: auto;
+        }
+
+        details summary {
+            padding: 0.85rem 1.1rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--accent);
+            list-style: none;
+        }
+
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details summary::before {
+            content: "▸ ";
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+
+        details[open] summary::before {
+            transform: rotate(90deg);
+        }
+
+        .text-fallback {
+            padding: 0 1.1rem 1.1rem;
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--muted);
+            white-space: pre-wrap;
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
+        }
+
+        .text-fallback strong {
+            color: var(--text);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Сетевой график: связи этапов</h1>
+        <p>Интерактивная блок-схема с буквенными обозначениями (A–AG) и номерами этапов. Пунктирные линии — зависимости без строгой последовательности.</p>
+    </header>
+    <main>
+        <div class="diagram-wrap" id="diagramViewport">
+            <pre class="mermaid">graph LR
+    A1["01 A&lt;br&gt;Выбор темы работы"] --> B2["02 B&lt;br&gt;Исследование&lt;br&gt;предметной области"]
+    B2 --> C3["03 C&lt;br&gt;Анализ&lt;br&gt;медиа-трендов"]
+    C3 --> D4["04 D&lt;br&gt;Сегментация&lt;br&gt;целевой аудитории"]
+    D4 --> E5["05 E&lt;br&gt;Формирование&lt;br&gt;сегментов ЦА"]
+    E5 --> F6["06 F&lt;br&gt;Обзор конкурентов&lt;br&gt;и аналогов"]
+    F6 --> G7["07 G&lt;br&gt;Создание карточек&lt;br&gt;персона-модели"]
+    G7 --> H8["08 H&lt;br&gt;Создание мудборда&lt;br&gt;стилистики"]
+    H8 --> I9["09 I&lt;br&gt;Составление&lt;br&gt;контент-плана"]
+
+    I9 --> J10["10 J&lt;br&gt;Написание литературных&lt;br&gt;сценариев"]
+    I9 --> M13["13 M&lt;br&gt;Композиция&lt;br&gt;музыкальных тем"]
+
+    J10 --> K11["11 K&lt;br&gt;Подготовка режиссерских&lt;br&gt;сценариев"]
+    K11 --> L12["12 L&lt;br&gt;Отрисовка&lt;br&gt;раскадровок"]
+
+    M13 --> N14["14 N&lt;br&gt;Аранжировка и&lt;br&gt;запись в DAW"]
+    K11 --> N14
+
+    N14 --> O15["15 O&lt;br&gt;Подготовка съемочного&lt;br&gt;оборудования"]
+    O15 --> P16["16 P&lt;br&gt;Подбор и подготовка&lt;br&gt;локаций"]
+
+    P16 --> Q17["17 Q&lt;br&gt;Съемка основного&lt;br&gt;материала"]
+    L12 --> Q17
+
+    Q17 --> R18["18 R&lt;br&gt;Съемка дополнительных&lt;br&gt;планов"]
+
+    Q17 --> S19["19 S&lt;br&gt;Отрисовка 2D-графики&lt;br&gt;и иконок"]
+    H8 -.-> S19
+
+    R18 --> T20["20 T&lt;br&gt;Настройка&lt;br&gt;моушн-анимации"]
+    S19 --> T20
+
+    T20 --> U21["21 U&lt;br&gt;Черновой монтаж&lt;br&gt;серии видео"]
+    U21 --> V22["22 V&lt;br&gt;Финальный монтаж&lt;br&gt;и ритмика"]
+    V22 --> W23["23 W&lt;br&gt;Цветокоррекция&lt;br&gt;видеоряда"]
+
+    W23 --> X24["24 X&lt;br&gt;Сведение и&lt;br&gt;мастеринг аудио"]
+    N14 -.-> X24
+
+    X24 --> Y25["25 Y&lt;br&gt;Контроль качества&lt;br&gt;и правки"]
+
+    Y25 --> Z26["26 Z&lt;br&gt;Оформление ПЗ&lt;br&gt;и презентации"]
+    Y25 --> AE27["27 AE&lt;br&gt;Верстка электронного&lt;br&gt;руководства"]
+
+    AE27 --> AF28["28 AF&lt;br&gt;Тестирование электронного&lt;br&gt;руководства"]
+    AF28 --> AG29["29 AG&lt;br&gt;Публикация готового&lt;br&gt;контента в соцсети"]
+
+    AG29 --> AH30["30 AH&lt;br&gt;Проверка&lt;br&gt;работы"]
+    Z26 --> AH30</pre>
+        </div>
+
+        <details>
+            <summary>Текстовое описание связей (для копирования)</summary>
+            <div class="text-fallback"><strong>1. Линейный старт:</strong>
+01 A → 02 B → 03 C → 04 D → 05 E → 06 F → 07 G → 08 H → 09 I
+
+<strong>2. Разветвление после 09 I:</strong>
+Видео: 09 I → 10 J → 11 K → 12 L
+Звук: 09 I → 13 M
+
+<strong>3. Слияние и съёмка:</strong>
+13 M → 14 N; 11 K → 14 N
+14 N → 15 O → 16 P → 17 Q; 12 L → 17 Q
+
+<strong>4. Графика и монтаж:</strong>
+17 Q → 18 R и 19 S; 08 H ⇢ 19 S (пунктир)
+18 R → 20 T; 19 S → 20 T
+20 T → 21 U → 22 V → 23 W
+
+<strong>5. Сведение и финал:</strong>
+23 W → 24 X; 14 N ⇢ 24 X (пунктир)
+24 X → 25 Y
+25 Y → 26 Z и 27 AE
+27 AE → 28 AF → 29 AG
+29 AG → 30 AH; 26 Z → 30 AH</div>
+        </details>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: "dark",
+            themeVariables: {
+                darkMode: true,
+                background: "#0d0d0d",
+                mainBkg: "#2a2a2a",
+                secondBkg: "#1a1a1a",
+                tertiaryColor: "#141414",
+                primaryColor: "#333333",
+                primaryTextColor: "#f5f5f5",
+                primaryBorderColor: "#d0d0d0",
+                secondaryColor: "#262626",
+                secondaryTextColor: "#e8e8e8",
+                secondaryBorderColor: "#888888",
+                lineColor: "#b5b5b5",
+                textColor: "#f0f0f0",
+                border1: "#666666",
+                border2: "#444444",
+                arrowheadColor: "#d0d0d0",
+                clusterBkg: "#1f1f1f",
+                clusterBorder: "#555555",
+                titleColor: "#f2f2f2",
+                edgeLabelBackground: "#2a2a2a",
+                fontFamily: '"Segoe UI", system-ui, sans-serif',
+                fontSize: "10px"
+            },
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: "basis",
+                padding: 6,
+                nodeSpacing: 22,
+                rankSpacing: 32
+            }
+        });
+
+        function fitDiagramToScreen() {
+            const wrap = document.getElementById("diagramViewport");
+            const svgEl = wrap && wrap.querySelector("svg");
+            if (!svgEl || !wrap) return;
+            const w = Math.max(1, wrap.clientWidth - 4);
+            const h = Math.max(1, wrap.clientHeight - 4);
+            let vbW = svgEl.viewBox && svgEl.viewBox.baseVal && svgEl.viewBox.baseVal.width;
+            let vbH = svgEl.viewBox && svgEl.viewBox.baseVal && svgEl.viewBox.baseVal.height;
+            if (!vbW || !vbH || vbW <= 0 || vbH <= 0) {
+                try {
+                    const bb = svgEl.getBBox();
+                    vbW = bb.width;
+                    vbH = bb.height;
+                } catch (e) {
+                    return;
+                }
+            }
+            if (!vbW || !vbH) return;
+            const scale = Math.min(w / vbW, h / vbH, 1) * 0.98;
+            svgEl.style.width = Math.max(1, vbW * scale) + "px";
+            svgEl.style.height = Math.max(1, vbH * scale) + "px";
+            svgEl.style.maxWidth = "none";
+            svgEl.style.maxHeight = "none";
+        }
+
+        mermaid.run().then(function () {
+            requestAnimationFrame(function () {
+                requestAnimationFrame(function () {
+                    fitDiagramToScreen();
+                });
+            });
+            window.addEventListener("resize", fitDiagramToScreen);
+            window.addEventListener("orientationchange", fitDiagramToScreen);
+        });
+    </script>
+</body>
+</html>
